@@ -18,7 +18,7 @@ export default function AdminSidebar() {
 
   async function handleLogout() {
     await fetch('/api/auth', { method: 'DELETE' });
-    router.push('/admin/login');
+    router.push('/login');
     router.refresh();
   }
 

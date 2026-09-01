@@ -4,7 +4,7 @@ import AdminSidebar from './AdminSidebar';
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const isAuth = await checkAuth();
-  if (!isAuth) redirect('/admin/login');
+  if (!isAuth) redirect('/login');
 
   return (
     <div className="min-h-screen bg-surface">
