@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-primary: #0f172a;
+  --color-primary-light: #1e293b;
+  --color-accent: #dc2626;
+  --color-accent-hover: #b91c1c;
+  --color-accent-light: #fef2f2;
+  --color-surface: #f8fafc;
+  --color-surface-dark: #f1f5f9;
+  --color-border: #e2e8f0;
+  --color-text: #0f172a;
+  --color-text-light: #64748b;
+  --color-text-lighter: #94a3b8;
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-whatsapp: #25D366;
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: white;
+}
+
+/* Badge styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 0.25rem;
+}
+.badge-featured { background: #0f172a; color: #fff; }
+.badge-new { background: #16a34a; color: #fff; }
+.badge-offer { background: #dc2626; color: #fff; }
+.badge-reserved { background: #f59e0b; color: #fff; }
+.badge-sold { background: #64748b; color: #fff; }
+
+/* Admin styles */
+.admin-sidebar { width: 260px; }
+.admin-content { margin-left: 260px; }
+@media (max-width: 1024px) {
+  .admin-sidebar { display: none; }
+  .admin-content { margin-left: 0; }
+}
+
+/* Image placeholder */
+.img-placeholder {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
