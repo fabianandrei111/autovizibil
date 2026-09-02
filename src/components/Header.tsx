@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 
 type HeaderProps = {
@@ -22,10 +23,8 @@ export default function Header({ settings }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-xl lg:text-2xl font-black tracking-tight text-primary">
-              AUTO<span className="text-accent">VIZIBIL</span>
-            </span>
+          <Link href="/" className="flex items-center">
+            <Image src="/logo.jpeg" alt="AutoVizibil" width={160} height={50} className="h-10 lg:h-12 w-auto" priority />
           </Link>
 
           {/* Desktop Nav */}

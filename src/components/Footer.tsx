@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 type FooterProps = {
   settings: {
@@ -23,7 +24,7 @@ export default function Footer({ settings }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <span className="text-2xl font-black tracking-tight">AUTO<span className="text-accent">VIZIBIL</span></span>
+            <Image src="/logo.jpeg" alt="AutoVizibil" width={160} height={50} className="h-10 w-auto brightness-0 invert" />
             <p className="mt-4 text-sm text-gray-400 leading-relaxed">Masini atent selectate. Consultanta personalizata. Experienta simpla de cumparare.</p>
             <div className="flex gap-4 mt-6">
               <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">

@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <span className="text-2xl font-black text-primary">AUTO<span className="text-accent">VIZIBIL</span></span>
+          <Image src="/logo.jpeg" alt="AutoVizibil" width={180} height={56} className="h-14 w-auto mx-auto" />
           <p className="text-sm text-text-light mt-2">Admin Dashboard</p>
         </div>
         <form onSubmit={handleLogin} className="bg-white rounded-xl border border-border p-6 space-y-4">

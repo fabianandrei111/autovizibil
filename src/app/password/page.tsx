@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import Image from 'next/image';
 
 function PasswordForm() {
   const [password, setPassword] = useState('');
@@ -35,9 +36,7 @@ function PasswordForm() {
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4">
       <div className="w-full max-w-sm text-center">
         <div className="mb-8">
-          <span className="text-3xl font-black text-white tracking-tight">
-            AUTO<span className="text-[#dc2626]">VIZIBIL</span>
-          </span>
+          <Image src="/logo.jpeg" alt="AutoVizibil" width={200} height={62} className="h-16 w-auto mx-auto brightness-0 invert" />
           <p className="text-gray-500 text-sm mt-3">Acest site este protejat. Introdu parola pentru a continua.</p>
         </div>
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-8 space-y-4">
