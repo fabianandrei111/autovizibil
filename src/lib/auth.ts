@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 
-const DEMO_EMAIL = 'admin@autovizibil.demo';
-const DEMO_PASSWORD = 'demo123';
+const DEMO_EMAIL = 'admin@autovizibil.ro';
+const DEMO_PASSWORD = 'admin123';
 const SESSION_COOKIE = 'av_session';
 
 export async function checkAuth(): Promise<boolean> {
