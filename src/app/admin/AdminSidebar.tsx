@@ -26,7 +26,7 @@ export default function AdminSidebar() {
   return (
     <aside className="admin-sidebar fixed top-0 left-0 h-full bg-primary text-white flex flex-col z-50">
       <div className="p-6">
-        <Link href="/"><Image src="/logo.jpeg" alt="AutoVizibil" width={140} height={44} className="h-9 w-auto brightness-0 invert" /></Link>
+        <Link href="/"><Image src="/logo.jpeg" alt="AutoVizibil" width={180} height={56} className="h-12 w-auto brightness-0 invert" /></Link>
         <p className="text-xs text-gray-500 mt-1">Demo Environment</p>
       </div>
       <nav className="flex-1 px-3 space-y-1">

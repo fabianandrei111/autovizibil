@@ -24,7 +24,7 @@ export default function Header({ settings }: HeaderProps) {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <Image src="/logo.jpeg" alt="AutoVizibil" width={160} height={50} className="h-10 lg:h-12 w-auto" priority />
+            <Image src="/logo.jpeg" alt="AutoVizibil" width={220} height={70} className="h-14 lg:h-16 w-auto" priority />
           </Link>
 
           {/* Desktop Nav */}

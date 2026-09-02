@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-surface flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <Image src="/logo.jpeg" alt="AutoVizibil" width={180} height={56} className="h-14 w-auto mx-auto" />
+          <Image src="/logo.jpeg" alt="AutoVizibil" width={240} height={75} className="h-20 w-auto mx-auto" />
           <p className="text-sm text-text-light mt-2">Admin Dashboard</p>
         </div>
         <form onSubmit={handleLogin} className="bg-white rounded-xl border border-border p-6 space-y-4">

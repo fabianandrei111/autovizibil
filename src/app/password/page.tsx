@@ -36,7 +36,7 @@ function PasswordForm() {
     <div className="min-h-screen bg-[#0f172a] flex items-center justify-center px-4">
       <div className="w-full max-w-sm text-center">
         <div className="mb-8">
-          <Image src="/logo.jpeg" alt="AutoVizibil" width={200} height={62} className="h-16 w-auto mx-auto brightness-0 invert" />
+          <Image src="/logo.jpeg" alt="AutoVizibil" width={260} height={80} className="h-20 w-auto mx-auto brightness-0 invert" />
           <p className="text-gray-500 text-sm mt-3">Acest site este protejat. Introdu parola pentru a continua.</p>
         </div>
         <form onSubmit={handleSubmit} className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-8 space-y-4">
