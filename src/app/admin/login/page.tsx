@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
           <button type="submit" disabled={loading} className="w-full bg-primary text-white font-semibold py-3 rounded-lg hover:bg-primary-light transition-colors disabled:opacity-50">
             {loading ? 'Se conecteaza...' : 'Conecteaza-te'}
           </button>
-          <p className="text-xs text-text-lighter text-center">Demo: admin@autovizibil.demo / demo123</p>
+          <p className="text-xs text-text-lighter text-center">Demo: admin@autovizibil.ro / admin123</p>
         </form>
       </div>
     </div>
