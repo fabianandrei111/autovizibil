@@ -70,16 +70,16 @@ export default function HomePage() {
         <h2 className="text-2xl font-bold text-primary mb-6">Categorii</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
           {[
-            { name: 'Sedan', icon: '🚗' },
-            { name: 'SUV', icon: '🚙' },
-            { name: 'SUV Coupe', icon: '🏎️' },
-            { name: 'Break', icon: '🚐' },
-            { name: 'Hatchback', icon: '🚘' },
-            { name: 'Coupe', icon: '🏎️' },
-            { name: 'Monovolum', icon: '🚌' },
+            { name: 'Sedan', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a3 3 0 00-.879-2.121L16.5 9l-3-4.5H7.5L4.5 9l-2.379 2.878A3 3 0 001.25 14.1v3.026"/></svg> },
+            { name: 'SUV', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V11.25m17.25 7.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V11.25L18 6H6L2.25 11.25v6.375"/></svg> },
+            { name: 'SUV Coupe', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V12m17.25 6.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V12L17 6.5 12 4.5H7L3 8l-.75 4v5.625"/></svg> },
+            { name: 'Break', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V10.5m17.25 8.25a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V10.5H20V7H6L2.25 10.5v7.125"/></svg> },
+            { name: 'Hatchback', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V13.5m17.25 5.25a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V13.5L18.5 8.5 14 5H8L4 8.5l-1.75 5v4.125"/></svg> },
+            { name: 'Coupe', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14m17.25 4.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14l-3-5.5L13 5h-3L6 8.5 3 14v3.625"/></svg> },
+            { name: 'Monovolum', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V9.75m17.25 9a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V9.75H19L16 5H6L3 9.75v7.875"/></svg> },
           ].filter(cat => categoryCounts[cat.name]).map(cat => (
             <Link key={cat.name} href={`/masini?body_type=${encodeURIComponent(cat.name)}`} className="flex flex-col items-center bg-white rounded-xl p-5 border border-border hover:shadow-md hover:border-accent transition-all">
-              <span className="text-3xl">{cat.icon}</span>
+              <span className="text-primary">{cat.icon}</span>
               <span className="font-semibold text-primary mt-2 text-sm">{cat.name}</span>
               <span className="text-xs text-text-light">{categoryCounts[cat.name]} masini</span>
             </Link>
@@ -90,10 +90,10 @@ export default function HomePage() {
       {/* INFO BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="bg-accent/10 border border-accent/20 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
-          <div className="text-4xl">📦</div>
+          <svg className="w-10 h-10 text-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
           <div>
-            <h3 className="font-bold text-primary text-lg">Masini la comanda din Danemarca</h3>
-            <p className="text-sm text-text-light mt-1">Toate masinile sunt disponibile la comanda cu avans minim 30%. Posibilitate leasing si finantare. Livrare in 7-14 zile lucratoare.</p>
+            <h3 className="font-bold text-primary text-lg">Masini verificate din Europa</h3>
+            <p className="text-sm text-text-light mt-1">Importam masini atent selectate din Danemarca si Germania. Istoric complet, documente verificate, posibilitate leasing si finantare.</p>
           </div>
         </div>
       </section>
