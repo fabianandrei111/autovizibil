@@ -1,4 +1,4 @@
-import { ensureSeeded, getAllCars, getAllLeads } from '@/lib/db';
+import { ensureSeeded, getAllCars, getAllLeads, getDealers, getCarsByDealer } from '@/lib/db';
 import Link from 'next/link';
 
 type Lead = { id: string; name: string; phone: string; email: string; car_name: string; source: string; status: string; created_at: string };
@@ -65,6 +65,47 @@ export default function AdminDashboard() {
               <span className="text-xs text-text-lighter">{chartDays[i]}</span>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Furnizori */}
+      <div className="bg-white rounded-xl border border-border overflow-hidden mb-8">
+        <div className="p-5 border-b border-border">
+          <h2 className="font-semibold text-primary">Furnizori</h2>
+          <p className="text-xs text-text-lighter mt-1">Dealerii din care importam masini</p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-surface">
+              <tr>
+                <th className="text-left py-3 px-5 font-medium text-text-lighter">Dealer</th>
+                <th className="text-left py-3 px-5 font-medium text-text-lighter">Masini active</th>
+                <th className="text-left py-3 px-5 font-medium text-text-lighter hidden md:table-cell">Locatie</th>
+                <th className="text-left py-3 px-5 font-medium text-text-lighter hidden lg:table-cell">Link sursa</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { name: 'HJA Auto', location: 'Danemarca', url: 'https://home.mobile.de/home/index.html?customerId=28417172' },
+                { name: 'Altergott Automobile', location: 'Bruchsal, Germania', url: 'https://home.mobile.de/ALTERGOTTAUTOMOBILE' },
+                { name: 'MC Automobile', location: 'Heidelberg, Germania', url: 'https://home.mobile.de/AUTOMOBILE-MC' },
+              ].map(dealer => {
+                const dealerCars = getCarsByDealer(dealer.name);
+                return (
+                  <tr key={dealer.name} className="border-t border-border hover:bg-surface/50">
+                    <td className="py-3 px-5 font-medium text-primary">{dealer.name}</td>
+                    <td className="py-3 px-5">
+                      <span className="bg-blue-50 text-blue-700 badge">{dealerCars.length} masini</span>
+                    </td>
+                    <td className="py-3 px-5 text-text-light hidden md:table-cell">{dealer.location}</td>
+                    <td className="py-3 px-5 hidden lg:table-cell">
+                      <a href={dealer.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline text-xs">mobile.de ↗</a>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
 

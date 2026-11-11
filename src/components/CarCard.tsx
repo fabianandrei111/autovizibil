@@ -27,6 +27,8 @@ export type Car = {
   featured: number;
   views: number;
   created_at: string;
+  dealer?: string;
+  deal_type?: string;
 };
 
 function getBadge(car: Car) {

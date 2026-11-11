@@ -31,6 +31,7 @@ export default function Header({ settings }: HeaderProps) {
           <nav className="hidden lg:flex items-center gap-8">
             <Link href="/" className="text-sm font-medium text-text-light hover:text-primary transition-colors">Acasa</Link>
             <Link href="/masini" className="text-sm font-medium text-text-light hover:text-primary transition-colors">Masini</Link>
+            <Link href="/oferte" className="text-sm font-medium text-accent hover:text-primary transition-colors">Oferte</Link>
             <Link href="/cauta-masina" className="text-sm font-medium text-text-light hover:text-primary transition-colors">Cauta o masina</Link>
             <Link href="/despre-noi" className="text-sm font-medium text-text-light hover:text-primary transition-colors">Despre noi</Link>
             <Link href="/blog" className="text-sm font-medium text-text-light hover:text-primary transition-colors">Blog</Link>
@@ -76,6 +77,7 @@ export default function Header({ settings }: HeaderProps) {
           <nav className="px-4 py-4 space-y-1">
             <Link href="/" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-text-light hover:text-primary">Acasa</Link>
             <Link href="/masini" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-text-light hover:text-primary">Masini</Link>
+            <Link href="/oferte" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-accent hover:text-primary">Oferte</Link>
             <Link href="/cauta-masina" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-text-light hover:text-primary">Cauta o masina</Link>
             <Link href="/despre-noi" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-text-light hover:text-primary">Despre noi</Link>
             <Link href="/blog" onClick={() => setMenuOpen(false)} className="block py-3 text-base font-medium text-text-light hover:text-primary">Blog</Link>

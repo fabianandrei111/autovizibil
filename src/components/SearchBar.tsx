@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const BRANDS = ['BMW', 'Mercedes-Benz', 'Audi', 'Porsche', 'Volkswagen', 'Range Rover'];
+const BRANDS = ['Audi', 'BMW', 'Citroen', 'Ford', 'Mercedes-Benz', 'Opel', 'Skoda', 'Volkswagen', 'Volvo'];
 const FUELS = ['Benzina', 'Diesel', 'Hybrid', 'Electric'];
 
 export default function SearchBar({ variant = 'hero' }: { variant?: 'hero' | 'compact' }) {

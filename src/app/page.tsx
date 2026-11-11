@@ -3,7 +3,7 @@ import SearchBar from '@/components/SearchBar';
 import CarCard, { Car } from '@/components/CarCard';
 import LeadForm from '@/components/LeadForm';
 import { getSettings, getWhatsAppLink } from '@/lib/settings';
-import { ensureSeeded, getFeaturedCars, getAllTestimonials } from '@/lib/db';
+import { ensureSeeded, getFeaturedCars, getAllTestimonials, getCarOfTheDay, getWeeklyDeals, getActiveCars } from '@/lib/db';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -14,6 +14,11 @@ export default function HomePage() {
   const settings = getSettings();
   const featuredCars = getFeaturedCars().slice(0, 6) as unknown as Car[];
   const testimonials = getAllTestimonials().filter(t => t.published === 1).slice(0, 4) as unknown as Testimonial[];
+  const carOfTheDay = getCarOfTheDay() as unknown as Car | undefined;
+  const weeklyDeals = getWeeklyDeals().slice(0, 4) as unknown as Car[];
+  const allActive = getActiveCars();
+  const categoryCounts: Record<string, number> = {};
+  allActive.forEach(c => { categoryCounts[c.body_type] = (categoryCounts[c.body_type] || 0) + 1; });
 
   const waLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Buna! Sunt interesat de masinile AutoVizibil si as vrea mai multe informatii.')}`;
 
@@ -60,12 +65,94 @@ export default function HomePage() {
         <SearchBar variant="hero" />
       </section>
 
+      {/* CATEGORIES */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 className="text-2xl font-bold text-primary mb-6">Categorii</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+          {[
+            { name: 'Sedan', icon: '🚗' },
+            { name: 'SUV', icon: '🚙' },
+            { name: 'SUV Coupe', icon: '🏎️' },
+            { name: 'Break', icon: '🚐' },
+            { name: 'Hatchback', icon: '🚘' },
+            { name: 'Coupe', icon: '🏎️' },
+            { name: 'Monovolum', icon: '🚌' },
+          ].filter(cat => categoryCounts[cat.name]).map(cat => (
+            <Link key={cat.name} href={`/masini?body_type=${encodeURIComponent(cat.name)}`} className="flex flex-col items-center bg-white rounded-xl p-5 border border-border hover:shadow-md hover:border-accent transition-all">
+              <span className="text-3xl">{cat.icon}</span>
+              <span className="font-semibold text-primary mt-2 text-sm">{cat.name}</span>
+              <span className="text-xs text-text-light">{categoryCounts[cat.name]} masini</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* INFO BANNER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="bg-accent/10 border border-accent/20 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
+          <div className="text-4xl">📦</div>
+          <div>
+            <h3 className="font-bold text-primary text-lg">Masini la comanda din Danemarca</h3>
+            <p className="text-sm text-text-light mt-1">Toate masinile sunt disponibile la comanda cu avans minim 30%. Posibilitate leasing si finantare. Livrare in 7-14 zile lucratoare.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* MASINA ZILEI + OFERTELE SAPTAMANII */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Masina Zilei */}
+          {carOfTheDay && (
+            <div className="lg:col-span-1">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl border-2 border-yellow-300 overflow-hidden">
+                <div className="bg-yellow-400 px-4 py-2 flex items-center gap-2">
+                  <span className="text-xl">⭐</span>
+                  <span className="font-bold text-yellow-900 text-sm uppercase tracking-wider">Masina Zilei</span>
+                </div>
+                <div className="p-4">
+                  <Link href={`/masini/${carOfTheDay.slug}`} className="block group">
+                    <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-3">
+                      <Image src={JSON.parse(carOfTheDay.images)[0] || ''} alt={`${carOfTheDay.brand} ${carOfTheDay.model}`} fill className="object-cover group-hover:scale-105 transition-transform" sizes="(max-width: 1024px) 100vw, 33vw" />
+                    </div>
+                    <h3 className="font-bold text-lg text-primary">{carOfTheDay.brand} {carOfTheDay.model}</h3>
+                    <p className="text-sm text-text-light">{carOfTheDay.version}</p>
+                    <div className="flex items-center gap-3 mt-2 text-sm text-text-light">
+                      <span>{carOfTheDay.year}</span>
+                      <span>{carOfTheDay.mileage.toLocaleString('ro-RO')} km</span>
+                      <span>{carOfTheDay.horsepower} CP</span>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between">
+                      <span className="text-2xl font-bold text-primary">€{carOfTheDay.price.toLocaleString('ro-RO')}</span>
+                      <span className="text-accent font-semibold text-sm">Vezi detalii →</span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Ofertele Saptamanii */}
+          <div className={carOfTheDay ? 'lg:col-span-2' : 'lg:col-span-3'}>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl">🔥</span>
+              <div>
+                <h2 className="text-2xl font-bold text-primary">Ofertele Saptamanii</h2>
+                <p className="text-sm text-text-light">Cele mai bune preturi, selectate pentru tine</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {weeklyDeals.map(car => <CarCard key={car.id} car={car} />)}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* FEATURED CARS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex items-center justify-between mb-10">
           <div>
             <h2 className="text-3xl lg:text-4xl font-bold text-primary">Masinile momentului</h2>
-            <p className="text-text-light mt-2">Selectia noastra de masini premium, verificate si gata de drum.</p>
+            <p className="text-text-light mt-2">Selectia noastra de masini premium, la comanda din Europa.</p>
           </div>
           <Link href="/masini" className="hidden sm:inline-flex items-center text-sm font-semibold text-accent hover:underline">
             Vezi toate &rarr;
@@ -86,10 +173,10 @@ export default function HomePage() {
           <p className="text-text-light text-center mt-3 max-w-xl mx-auto">Procesul este simplu si transparent. In 4 pasi ajungi la masina potrivita.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
             {[
-              { step: '01', title: 'Ne spui ce cauti', desc: 'Descrii masina ideala sau alegi din stocul nostru.' },
-              { step: '02', title: 'Gasim variantele', desc: 'Identificam optiunile potrivite din reteaua noastra.' },
-              { step: '03', title: 'Discutam detaliile', desc: 'Analizam impreuna fiecare varianta si raspundem la intrebari.' },
-              { step: '04', title: 'Te ajutam pana la achizitie', desc: 'Te insotim in tot procesul, de la vizionare la finalizare.' },
+              { step: '01', title: 'Alegi masina', desc: 'Alegi din portofoliul nostru sau ne spui ce cauti.' },
+              { step: '02', title: 'Platesti avansul', desc: 'Avans minim 30% pentru a rezerva masina. Posibilitate leasing.' },
+              { step: '03', title: 'Aducem masina', desc: 'Importam masina din Danemarca in 7-14 zile lucratoare.' },
+              { step: '04', title: 'Livrare si inmatriculare', desc: 'Te ajutam cu tot procesul, de la RAR la inmatriculare.' },
             ].map(s => (
               <div key={s.step} className="text-center lg:text-left">
                 <span className="text-5xl font-black text-accent/20">{s.step}</span>
@@ -159,10 +246,11 @@ export default function HomePage() {
       <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <h2 className="text-3xl font-bold text-primary text-center mb-10">Intrebari frecvente</h2>
         {[
-          { q: 'Cum functioneaza intermedierea?', a: 'Identificam masina potrivita pentru tine, verificam starea tehnica si istoricul, negociem pretul si te insotim pana la finalizarea achizitiei.' },
-          { q: 'Pot cere o anumita masina?', a: 'Da. Ne spui exact ce cauti (marca, model, buget, dotari) si noi cautam varianta potrivita in reteaua noastra.' },
-          { q: 'Pot vedea masina inainte?', a: 'Desigur. Organizam vizionari si test drive-uri pentru orice masina din portofoliul nostru.' },
-          { q: 'Cum iau legatura cu voi?', a: 'Ne poti contacta prin telefon, WhatsApp, sau prin formularul de contact de pe site. Raspundem in cel mai scurt timp.' },
+          { q: 'Cum functioneaza importul la comanda?', a: 'Alegi masina din portofoliul nostru, platesti un avans minim de 30%, iar noi ne ocupam de import, transport si livrare din Danemarca in 7-14 zile lucratoare.' },
+          { q: 'Cat costa avansul?', a: 'Avansul minim este de 30% din pretul masinii. Restul se poate achita integral la livrare sau prin leasing/finantare.' },
+          { q: 'Pot face leasing?', a: 'Da! Oferim posibilitate de leasing prin partenerii nostri financiari. Te ajutam cu tot procesul de la A la Z.' },
+          { q: 'Masina are garantie?', a: 'Toate masinile importate au istoric verificat si documente complete. Te ajutam si cu inmatricularea in Romania.' },
+          { q: 'Cum iau legatura cu voi?', a: 'Ne poti contacta prin telefon, WhatsApp sau formularul de contact. Raspundem rapid la orice intrebare.' },
         ].map((faq, i) => (
           <details key={i} className="group border-b border-border">
             <summary className="py-5 cursor-pointer flex items-center justify-between text-primary font-semibold hover:text-accent transition-colors">
