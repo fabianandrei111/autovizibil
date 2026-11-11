@@ -2,11 +2,23 @@ import PublicLayout from '@/components/PublicLayout';
 import CarCard, { Car } from '@/components/CarCard';
 import MobileFilters from '@/components/MobileFilters';
 import { ensureSeeded, filterCars, getAllCars } from '@/lib/db';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Masini de Vanzare | Import Auto Germania & Danemarca | AutoVizibil',
   description: 'Peste 40 masini verificate de vanzare - import din Germania si Danemarca. BMW, Mercedes, Volvo, Audi. Preturi transparente, leasing disponibil. AutoVizibil Bucuresti.',
+  openGraph: {
+    title: 'Masini de Vanzare | Import Auto Germania & Danemarca',
+    description: 'Peste 40 masini verificate de vanzare - import din Germania si Danemarca. BMW, Mercedes, Volvo, Audi. Preturi transparente, leasing disponibil.',
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'AutoVizibil',
+    url: 'https://autovizibil.ro/masini',
+  },
+  alternates: {
+    canonical: 'https://autovizibil.ro/masini',
+  },
 };
 
 type Props = {
@@ -34,10 +46,51 @@ export default async function MasiniPage({ searchParams }: Props) {
 
   const hasFilters = !!(params.brand || params.fuel || params.transmission || params.body_type || params.minPrice || params.maxPrice || params.year);
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Masini", item: "https://autovizibil.ro/masini" },
+    ],
+  };
+
+  const collectionJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Masini de Vanzare - AutoVizibil",
+    description: "Peste 40 masini verificate de vanzare - import din Germania si Danemarca.",
+    url: "https://autovizibil.ro/masini",
+    isPartOf: { "@id": "https://autovizibil.ro/#website" },
+    about: {
+      "@type": "OfferCatalog",
+      name: "Masini Import Europa",
+      itemListElement: cars.slice(0, 10).map((car, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `https://autovizibil.ro/masini/${car.slug}`,
+        name: `${car.brand} ${car.model} ${car.version} ${car.year}`,
+      })),
+    },
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }} />
+      {/* Breadcrumbs */}
+      <div className="bg-surface border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <nav aria-label="Breadcrumb" className="text-sm text-text-lighter flex items-center gap-2">
+            <Link href="/" className="hover:text-primary">Acasa</Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-primary font-medium" aria-current="page">Masini</span>
+          </nav>
+        </div>
+      </div>
+
       {/* Header bar */}
-      <section className="bg-surface border-b border-border py-4 sm:py-8">
+      <section className="bg-surface py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-primary">Masini disponibile</h1>
           <p className="text-text-light mt-0.5 text-sm">{cars.length} masini gasite</p>

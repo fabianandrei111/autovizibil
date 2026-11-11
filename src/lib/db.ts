@@ -1,5 +1,5 @@
 // In-memory mock database for Vercel demo deployment
-import { v4 as uuid } from 'uuid';
+import { randomUUID as uuid } from 'crypto';
 
 export interface Car {
   id: string; brand: string; model: string; version: string; slug: string;

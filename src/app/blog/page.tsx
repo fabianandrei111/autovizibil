@@ -5,16 +5,37 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog | AutoVizibil',
-  description: 'Sfaturi utile despre cumpararea si intretinerea masinilor. Ghiduri, comparatii si informatii practice.',
+  title: 'Blog Auto | Sfaturi Masini Import Europa | AutoVizibil',
+  description: 'Sfaturi utile despre cumpararea si intretinerea masinilor. Ghiduri import auto Germania si Danemarca, comparatii si informatii practice.',
+  openGraph: {
+    title: 'Blog Auto | Sfaturi Masini Import Europa',
+    description: 'Sfaturi utile despre cumpararea si intretinerea masinilor. Ghiduri import auto, comparatii si informatii practice.',
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'AutoVizibil',
+    url: 'https://autovizibil.ro/blog',
+  },
+  alternates: {
+    canonical: 'https://autovizibil.ro/blog',
+  },
 };
 
 export default function BlogPage() {
   ensureSeeded();
   const posts = getAllBlogPosts().filter(p => p.published === 1);
 
+  const blogBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://autovizibil.ro/blog" },
+    ],
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogBreadcrumb) }} />
       <section className="bg-surface py-12 border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl lg:text-4xl font-bold text-primary">Blog</h1>

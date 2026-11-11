@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import PublicLayout from '@/components/PublicLayout';
 import SearchBar from '@/components/SearchBar';
 import CarCard, { Car } from '@/components/CarCard';
@@ -22,12 +23,37 @@ export default function HomePage() {
 
   const waLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Buna! Sunt interesat de masinile AutoVizibil si as vrea mai multe informatii.')}`;
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      { "@type": "Question", name: "Cum functioneaza importul la comanda?", acceptedAnswer: { "@type": "Answer", text: "Alegi masina din portofoliul nostru, platesti un avans minim de 30%, iar noi ne ocupam de import, transport si livrare din Danemarca in 7-14 zile lucratoare." } },
+      { "@type": "Question", name: "Cat costa avansul?", acceptedAnswer: { "@type": "Answer", text: "Avansul minim este de 30% din pretul masinii. Restul se poate achita integral la livrare sau prin leasing/finantare." } },
+      { "@type": "Question", name: "Pot face leasing?", acceptedAnswer: { "@type": "Answer", text: "Da! Oferim posibilitate de leasing prin partenerii nostri financiari. Te ajutam cu tot procesul de la A la Z." } },
+      { "@type": "Question", name: "Masina are garantie?", acceptedAnswer: { "@type": "Answer", text: "Toate masinile importate au istoric verificat si documente complete. Te ajutam si cu inmatricularea in Romania." } },
+      { "@type": "Question", name: "Cum iau legatura cu voi?", acceptedAnswer: { "@type": "Answer", text: "Ne poti contacta prin telefon la 0742 902 242, WhatsApp sau formularul de contact de pe site. Raspundem rapid la orice intrebare." } },
+    ],
+  };
+
+  const speakableJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AutoVizibil - Import Masini Verificate din Europa",
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", ".speakable-content"],
+    },
+    url: "https://autovizibil.ro",
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(speakableJsonLd) }} />
       {/* HERO */}
       <section className="relative bg-primary overflow-hidden">
         <div className="absolute inset-0 opacity-30">
-          <Image src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="" fill className="object-cover" priority />
+          <Image src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="Masini premium import Europa - AutoVizibil dealer auto Bucuresti" fill className="object-cover" priority />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/60" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-36">
@@ -35,7 +61,7 @@ export default function HomePage() {
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white leading-tight">
               {settings.hero_title}
             </h1>
-            <p className="mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed">
+            <p className="speakable-content mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed">
               {settings.hero_subtitle}
             </p>
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -56,7 +82,9 @@ export default function HomePage() {
 
       {/* SEARCH */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
-        <SearchBar variant="hero" />
+        <Suspense fallback={<div className="bg-white rounded-2xl p-6 shadow-xl border border-border h-[120px] animate-pulse" />}>
+          <SearchBar variant="hero" />
+        </Suspense>
       </section>
 
       {/* CATEGORIES */}
@@ -225,7 +253,7 @@ export default function HomePage() {
         <section className="bg-surface py-10 sm:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-center">Ce spun clientii</h2>
-            <p className="text-text-light text-center mt-2 text-sm">(Date demonstrative)</p>
+            <p className="text-text-light text-center mt-2 text-sm">Recenzii de la clientii nostri</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
               {testimonials.map(t => (
                 <div key={t.id} className="bg-white rounded-xl p-6 border border-border">

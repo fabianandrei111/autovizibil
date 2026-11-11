@@ -1,5 +1,12 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ['latin', 'latin-ext'],
+  display: 'swap',
+  variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
   title: {
@@ -14,7 +21,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ro_RO",
     siteName: "AutoVizibil",
+    url: "https://autovizibil.ro",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "AutoVizibil | Masini din Europa - Import Auto Germania & Danemarca",
+    description: "Import masini verificate din Germania si Danemarca. Peste 40 masini disponibile. Leasing si finantare.",
+  },
+  metadataBase: new URL("https://autovizibil.ro"),
   alternates: {
     canonical: "https://autovizibil.ro",
   },
@@ -32,12 +46,19 @@ const jsonLd = {
       "@type": "AutoDealer",
       "@id": "https://autovizibil.ro/#organization",
       name: "AutoVizibil",
+      alternateName: "AutoVizibil - Import Masini Europa",
       url: "https://autovizibil.ro",
+      logo: "https://autovizibil.ro/logo.jpeg",
+      image: "https://autovizibil.ro/logo.jpeg",
+      description: "AutoVizibil - dealer auto specializat in importul de masini verificate din Germania si Danemarca. Peste 40 masini disponibile, leasing, finantare, documente complete.",
       telephone: "+40742902242",
       email: "contact@autovizibil.ro",
       address: {
         "@type": "PostalAddress",
+        streetAddress: "Bucuresti",
         addressLocality: "Bucuresti",
+        addressRegion: "Bucuresti",
+        postalCode: "010000",
         addressCountry: "RO",
       },
       geo: {
@@ -49,17 +70,29 @@ const jsonLd = {
         "@type": "Country",
         name: "Romania",
       },
-      priceRange: "€€",
+      priceRange: "5000 EUR - 60000 EUR",
+      currenciesAccepted: "EUR, RON",
+      paymentAccepted: "Cash, Bank Transfer, Leasing",
       openingHoursSpecification: [
         { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"], opens: "09:00", closes: "18:00" },
         { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "10:00", closes: "14:00" },
       ],
+      sameAs: [],
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+40742902242",
+        contactType: "sales",
+        availableLanguage: ["Romanian", "English"],
+        areaServed: "RO",
+      },
     },
     {
       "@type": "WebSite",
       "@id": "https://autovizibil.ro/#website",
       url: "https://autovizibil.ro",
       name: "AutoVizibil",
+      description: "Import masini verificate din Germania si Danemarca. Peste 40 masini disponibile.",
+      inLanguage: "ro-RO",
       publisher: { "@id": "https://autovizibil.ro/#organization" },
       potentialAction: {
         "@type": "SearchAction",
@@ -67,25 +100,13 @@ const jsonLd = {
         "query-input": "required name=search_term_string",
       },
     },
-    {
-      "@type": "FAQPage",
-      mainEntity: [
-        { "@type": "Question", name: "Cum functioneaza importul la comanda?", acceptedAnswer: { "@type": "Answer", text: "Alegi masina din portofoliul nostru, platesti un avans minim de 30%, iar noi ne ocupam de import, transport si livrare din Europa in 7-14 zile lucratoare." } },
-        { "@type": "Question", name: "Cat costa avansul?", acceptedAnswer: { "@type": "Answer", text: "Avansul minim este de 30% din pretul masinii. Restul se poate achita integral la livrare sau prin leasing/finantare." } },
-        { "@type": "Question", name: "Pot face leasing?", acceptedAnswer: { "@type": "Answer", text: "Da! Oferim posibilitate de leasing prin partenerii nostri financiari. Te ajutam cu tot procesul de la A la Z." } },
-        { "@type": "Question", name: "Masina are garantie si documente?", acceptedAnswer: { "@type": "Answer", text: "Toate masinile importate au istoric verificat si documente complete. Te ajutam si cu inmatricularea in Romania." } },
-      ],
-    },
   ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ro" className="h-full antialiased">
+    <html lang="ro" className={`h-full antialiased ${inter.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <meta name="geo.region" content="RO" />
         <meta name="geo.placename" content="Bucuresti" />
         <meta name="geo.position" content="44.4268;26.1025" />

@@ -24,7 +24,7 @@ export default function CarGallery({ images, carName }: { images: string[]; carN
           </div>
         </div>
         {images.length > 1 && (
-          <div className="flex gap-2 overflow-x-auto pb-1">
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
             {images.map((img, i) => (
               <button key={i} onClick={() => setActive(i)} className={`relative w-20 h-14 rounded-lg overflow-hidden flex-shrink-0 border-2 transition-colors ${i === active ? 'border-accent' : 'border-transparent'}`}>
                 <Image src={img} alt="" fill className="object-cover" sizes="80px" />

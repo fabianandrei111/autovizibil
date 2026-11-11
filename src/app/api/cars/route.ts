@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ensureSeeded, filterCars, addCar, updateCar, deleteCar } from '@/lib/db';
+import { requireAdmin, rateLimit, rateLimitResponse, sanitizeString } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   ensureSeeded();
@@ -20,23 +21,73 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  const authError = await requireAdmin(req);
+  if (authError) return authError;
+
   ensureSeeded();
-  const data = await req.json();
-  const result = addCar(data);
+
+  let data;
+  try {
+    data = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+
+  // Validate required fields
+  if (!data.brand?.trim() || !data.model?.trim()) {
+    return NextResponse.json({ error: 'Brand and model are required' }, { status: 400 });
+  }
+
+  const result = addCar({
+    ...data,
+    brand: sanitizeString(data.brand, 100),
+    model: sanitizeString(data.model, 100),
+    version: sanitizeString(data.version, 100),
+    description: sanitizeString(data.description, 5000),
+    color: sanitizeString(data.color, 50),
+    location: sanitizeString(data.location, 200),
+  });
   return NextResponse.json(result);
 }
 
 export async function PUT(req: NextRequest) {
+  const authError = await requireAdmin(req);
+  if (authError) return authError;
+
   ensureSeeded();
-  const data = await req.json();
+
+  let data;
+  try {
+    data = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+
   if (!data.id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
-  updateCar(data);
+
+  updateCar({
+    ...data,
+    brand: data.brand ? sanitizeString(data.brand, 100) : undefined,
+    model: data.model ? sanitizeString(data.model, 100) : undefined,
+    description: data.description ? sanitizeString(data.description, 5000) : undefined,
+  });
   return NextResponse.json({ ok: true });
 }
 
 export async function DELETE(req: NextRequest) {
+  const authError = await requireAdmin(req);
+  if (authError) return authError;
+
   ensureSeeded();
-  const { id } = await req.json();
+
+  let body;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+  }
+
+  const { id } = body;
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
   deleteCar(id);
   return NextResponse.json({ ok: true });

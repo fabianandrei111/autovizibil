@@ -1,11 +1,23 @@
 import PublicLayout from '@/components/PublicLayout';
 import LeadForm from '@/components/LeadForm';
+import Link from 'next/link';
 import { getSettings } from '@/lib/settings';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Contact AutoVizibil | Suna 0742 902 242 | Import Masini Europa',
   description: 'Contacteaza AutoVizibil: telefon 0742 902 242, WhatsApp sau formular de contact. Import masini verificate din Germania si Danemarca, Bucuresti.',
+  openGraph: {
+    title: 'Contact AutoVizibil | Suna 0742 902 242',
+    description: 'Contacteaza AutoVizibil: telefon, WhatsApp sau formular de contact. Import masini verificate din Germania si Danemarca.',
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'AutoVizibil',
+    url: 'https://autovizibil.ro/contact',
+  },
+  alternates: {
+    canonical: 'https://autovizibil.ro/contact',
+  },
 };
 
 export default function ContactPage() {
@@ -13,8 +25,52 @@ export default function ContactPage() {
   const phoneLink = `tel:${settings.phone.replace(/\s/g, '')}`;
   const waLink = `https://wa.me/${settings.whatsapp}`;
 
+  const contactBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Contact", item: "https://autovizibil.ro/contact" },
+    ],
+  };
+
+  const contactPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact AutoVizibil",
+    description: "Contacteaza AutoVizibil: telefon 0742 902 242, WhatsApp sau formular de contact.",
+    url: "https://autovizibil.ro/contact",
+    mainEntity: {
+      "@type": "AutoDealer",
+      "@id": "https://autovizibil.ro/#organization",
+      name: settings.business_name,
+      telephone: "+40742902242",
+      email: settings.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: settings.address,
+        addressLocality: "Bucuresti",
+        addressRegion: "Bucuresti",
+        addressCountry: "RO",
+      },
+    },
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactBreadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }} />
+      {/* Breadcrumbs */}
+      <div className="bg-surface border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <nav aria-label="Breadcrumb" className="text-sm text-text-lighter flex items-center gap-2">
+            <Link href="/" className="hover:text-primary">Acasa</Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-primary font-medium" aria-current="page">Contact</span>
+          </nav>
+        </div>
+      </div>
+
       <section className="bg-surface py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h1 className="text-3xl lg:text-4xl font-bold text-primary">Contact</h1>

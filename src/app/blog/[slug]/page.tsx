@@ -1,11 +1,16 @@
 import PublicLayout from '@/components/PublicLayout';
-import { ensureSeeded, getBlogBySlug } from '@/lib/db';
+import { ensureSeeded, getBlogBySlug, getAllBlogPosts } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
 type Props = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  ensureSeeded();
+  return getAllBlogPosts().filter(p => p.published === 1).map(p => ({ slug: p.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ensureSeeded();

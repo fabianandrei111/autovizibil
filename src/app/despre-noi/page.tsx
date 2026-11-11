@@ -7,6 +7,17 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Despre AutoVizibil | Dealer Auto Import Germania & Danemarca',
   description: 'AutoVizibil - intermediere auto profesionala cu accent pe transparenta. Import masini verificate din Germania si Danemarca, Bucuresti, Romania.',
+  openGraph: {
+    title: 'Despre AutoVizibil | Dealer Auto Import Germania & Danemarca',
+    description: 'AutoVizibil - intermediere auto profesionala cu accent pe transparenta. Import masini verificate din Germania si Danemarca.',
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'AutoVizibil',
+    url: 'https://autovizibil.ro/despre-noi',
+  },
+  alternates: {
+    canonical: 'https://autovizibil.ro/despre-noi',
+  },
 };
 
 type Testimonial = { id: string; name: string; car: string; text: string; rating: number };
@@ -17,8 +28,29 @@ export default function DesprePage() {
   const testimonials = getAllTestimonials().filter(t => t.published === 1).slice(0, 4) as unknown as Testimonial[];
   const waLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent('Buna! As vrea sa aflu mai multe despre serviciile AutoVizibil.')}`;
 
+  const despreBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Despre noi", item: "https://autovizibil.ro/despre-noi" },
+    ],
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(despreBreadcrumb) }} />
+      {/* Breadcrumbs */}
+      <div className="bg-surface border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <nav aria-label="Breadcrumb" className="text-sm text-text-lighter flex items-center gap-2">
+            <Link href="/" className="hover:text-primary">Acasa</Link>
+            <span aria-hidden="true">/</span>
+            <span className="text-primary font-medium" aria-current="page">Despre noi</span>
+          </nav>
+        </div>
+      </div>
+
       <section className="bg-surface py-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl font-bold text-primary">Despre AutoVizibil</h1>
@@ -50,7 +82,7 @@ export default function DesprePage() {
         <section className="bg-surface py-16">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-primary text-center mb-2">Ce spun clientii</h2>
-            <p className="text-text-lighter text-center text-sm mb-10">(Date demonstrative)</p>
+            <p className="text-text-lighter text-center text-sm mb-10">Recenzii de la clientii nostri</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {testimonials.map(t => (
                 <div key={t.id} className="bg-white rounded-xl p-6 border border-border">

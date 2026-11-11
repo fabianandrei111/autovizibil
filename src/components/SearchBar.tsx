@@ -32,18 +32,33 @@ export default function SearchBar({ variant = 'hero' }: { variant?: 'hero' | 'co
     <form onSubmit={handleSearch} className={variant === 'hero' ? 'bg-white rounded-2xl p-6 shadow-xl border border-border' : ''}>
       {variant === 'hero' && <h2 className="text-lg font-bold text-primary mb-4">Ce masina cauti?</h2>}
       <div className={`grid gap-3 ${variant === 'hero' ? 'grid-cols-2 lg:grid-cols-6' : 'grid-cols-2 lg:grid-cols-5'}`}>
-        <select value={brand} onChange={e => setBrand(e.target.value)} className={inputCls}>
-          <option value="">Marca</option>
-          {BRANDS.map(b => <option key={b} value={b}>{b}</option>)}
-        </select>
-        <select value={fuel} onChange={e => setFuel(e.target.value)} className={inputCls}>
-          <option value="">Combustibil</option>
-          {FUELS.map(f => <option key={f} value={f}>{f}</option>)}
-        </select>
-        <input type="number" placeholder="Pret min (EUR)" value={minPrice} onChange={e => setMinPrice(e.target.value)} className={inputCls} />
-        <input type="number" placeholder="Pret max (EUR)" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className={inputCls} />
-        <input type="number" placeholder="An minim" value={year} onChange={e => setYear(e.target.value)} className={inputCls} />
-        <button type="submit" className="bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-light transition-colors text-sm">
+        <div>
+          <label htmlFor={`search-brand-${variant}`} className="sr-only">Marca</label>
+          <select id={`search-brand-${variant}`} value={brand} onChange={e => setBrand(e.target.value)} className={inputCls}>
+            <option value="">Marca</option>
+            {BRANDS.map(b => <option key={b} value={b}>{b}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor={`search-fuel-${variant}`} className="sr-only">Combustibil</label>
+          <select id={`search-fuel-${variant}`} value={fuel} onChange={e => setFuel(e.target.value)} className={inputCls}>
+            <option value="">Combustibil</option>
+            {FUELS.map(f => <option key={f} value={f}>{f}</option>)}
+          </select>
+        </div>
+        <div>
+          <label htmlFor={`search-minprice-${variant}`} className="sr-only">Pret minim</label>
+          <input id={`search-minprice-${variant}`} type="number" placeholder="Pret min (EUR)" value={minPrice} onChange={e => setMinPrice(e.target.value)} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={`search-maxprice-${variant}`} className="sr-only">Pret maxim</label>
+          <input id={`search-maxprice-${variant}`} type="number" placeholder="Pret max (EUR)" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className={inputCls} />
+        </div>
+        <div>
+          <label htmlFor={`search-year-${variant}`} className="sr-only">An minim</label>
+          <input id={`search-year-${variant}`} type="number" placeholder="An minim" value={year} onChange={e => setYear(e.target.value)} className={inputCls} />
+        </div>
+        <button type="submit" className="bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary-light transition-colors text-sm min-h-[44px]">
           Cauta masina
         </button>
       </div>

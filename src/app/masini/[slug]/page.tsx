@@ -1,7 +1,7 @@
 import PublicLayout from '@/components/PublicLayout';
 import LeadForm from '@/components/LeadForm';
-import { Car } from '@/components/CarCard';
-import { ensureSeeded, getCarBySlug, getSettings } from '@/lib/db';
+import CarCard, { Car } from '@/components/CarCard';
+import { ensureSeeded, getCarBySlug, getSettings, getActiveCars } from '@/lib/db';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,6 +11,11 @@ import FinancingCalculator from './FinancingCalculator';
 import ShareButtons from './ShareButtons';
 
 type Props = { params: Promise<{ slug: string }> };
+
+export async function generateStaticParams() {
+  ensureSeeded();
+  return getActiveCars().map(car => ({ slug: car.slug }));
+}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   ensureSeeded();
@@ -23,7 +28,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    openGraph: { title, description, images: images[0] ? [images[0]] : [], type: 'article', locale: 'ro_RO' },
+    openGraph: { title, description, images: images[0] ? [images[0]] : [], type: 'article', locale: 'ro_RO', siteName: 'AutoVizibil', url: `https://autovizibil.ro/masini/${slug}` },
+    alternates: {
+      canonical: `https://autovizibil.ro/masini/${slug}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: images[0] ? [images[0]] : [],
+    },
   };
 }
 
@@ -41,6 +55,13 @@ export default async function CarPage({ params }: Props) {
   const waLink = `https://wa.me/${settings.whatsapp}?text=${encodeURIComponent(waMessage)}`;
   const phoneLink = `tel:${settings.phone.replace(/\s/g, '')}`;
 
+  // Related cars for internal linking (same brand or same body type)
+  const allActive = getActiveCars() as unknown as Car[];
+  const relatedCars = allActive
+    .filter(c => c.id !== car.id && c.status !== 'sold')
+    .filter(c => c.brand === car.brand || c.body_type === car.body_type)
+    .slice(0, 3);
+
   const specs = [
     { label: 'Motor', value: car.engine },
     { label: 'Putere', value: car.horsepower > 0 ? `${car.horsepower} CP` : '' },
@@ -54,17 +75,86 @@ export default async function CarPage({ params }: Props) {
     { label: 'Locatie', value: car.location },
   ].filter(s => s.value);
 
+  const fuelTypeMap: Record<string, string> = {
+    Benzina: 'https://schema.org/Gasoline',
+    Diesel: 'https://schema.org/Diesel',
+    Hybrid: 'https://schema.org/HybridElectric',
+    Electric: 'https://schema.org/Electric',
+  };
+
+  const transmissionMap: Record<string, string> = {
+    Automata: 'https://schema.org/AutomaticTransmission',
+    Manuala: 'https://schema.org/ManualTransmission',
+  };
+
+  const vehicleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Car",
+    name: carName,
+    brand: { "@type": "Brand", name: car.brand },
+    model: car.model,
+    vehicleModelDate: String(car.year),
+    modelDate: String(car.year),
+    mileageFromOdometer: {
+      "@type": "QuantitativeValue",
+      value: car.mileage,
+      unitCode: "KMT",
+    },
+    fuelType: fuelTypeMap[car.fuel] || car.fuel,
+    vehicleTransmission: transmissionMap[car.transmission] || car.transmission,
+    vehicleEngine: {
+      "@type": "EngineSpecification",
+      name: car.engine,
+      ...(car.horsepower > 0 ? {
+        enginePower: {
+          "@type": "QuantitativeValue",
+          value: car.horsepower,
+          unitCode: "BHP",
+        },
+      } : {}),
+    },
+    bodyType: car.body_type,
+    color: car.color,
+    driveWheelConfiguration: car.drivetrain,
+    image: images,
+    description: car.description || `${carName} - import din Europa, verificat, documente complete.`,
+    url: `https://autovizibil.ro/masini/${car.slug}`,
+    vehicleInteriorColor: "",
+    numberOfDoors: car.body_type === "Sedan" ? 4 : car.body_type === "Coupe" ? 2 : 4,
+    offers: {
+      "@type": "Offer",
+      price: car.price,
+      priceCurrency: car.currency || "EUR",
+      availability: car.status === "sold" ? "https://schema.org/SoldOut" : car.status === "reserved" ? "https://schema.org/LimitedAvailability" : "https://schema.org/InStock",
+      itemCondition: "https://schema.org/UsedCondition",
+      seller: { "@id": "https://autovizibil.ro/#organization" },
+      url: `https://autovizibil.ro/masini/${car.slug}`,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Masini", item: "https://autovizibil.ro/masini" },
+      { "@type": "ListItem", position: 3, name: `${car.brand} ${car.model}`, item: `https://autovizibil.ro/masini/${car.slug}` },
+    ],
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(vehicleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       {/* Breadcrumbs */}
       <div className="bg-surface border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="text-sm text-text-lighter flex items-center gap-2">
+          <nav aria-label="Breadcrumb" className="text-sm text-text-lighter flex items-center gap-2">
             <Link href="/" className="hover:text-primary">Acasa</Link>
-            <span>/</span>
+            <span aria-hidden="true">/</span>
             <Link href="/masini" className="hover:text-primary">Masini</Link>
-            <span>/</span>
-            <span className="text-primary font-medium">{car.brand} {car.model}</span>
+            <span aria-hidden="true">/</span>
+            <span className="text-primary font-medium" aria-current="page">{car.brand} {car.model}</span>
           </nav>
         </div>
       </div>
@@ -72,7 +162,7 @@ export default async function CarPage({ params }: Props) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 pb-24 lg:pb-8">
         <div className="lg:flex gap-8">
           {/* Left - Gallery + Details */}
-          <div className="lg:flex-1">
+          <div className="lg:flex-1 min-w-0">
             {/* Gallery */}
             <CarGallery images={images} carName={carName} />
 
@@ -106,7 +196,7 @@ export default async function CarPage({ params }: Props) {
                 {specs.map(s => (
                   <div key={s.label} className="bg-surface rounded-lg p-4">
                     <p className="text-xs text-text-lighter uppercase tracking-wider">{s.label}</p>
-                    <p className="font-semibold text-primary mt-1">{s.value}</p>
+                    <p className="font-semibold text-primary mt-1 break-words">{s.value}</p>
                   </div>
                 ))}
               </div>
@@ -118,9 +208,9 @@ export default async function CarPage({ params }: Props) {
                 <h2 className="text-xl font-bold text-primary mb-4">Dotari</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {features.map((f, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-text-light py-1">
+                    <div key={i} className="flex items-center gap-2 text-sm text-text-light py-1 min-w-0">
                       <svg className="w-4 h-4 text-success flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/></svg>
-                      {f}
+                      <span className="break-words min-w-0">{f}</span>
                     </div>
                   ))}
                 </div>
@@ -131,7 +221,7 @@ export default async function CarPage({ params }: Props) {
             {car.description && (
               <div className="mt-8">
                 <h2 className="text-xl font-bold text-primary mb-4">Descriere</h2>
-                <p className="text-text-light leading-relaxed">{car.description}</p>
+                <p className="text-text-light leading-relaxed break-words">{car.description}</p>
               </div>
             )}
 
@@ -147,11 +237,11 @@ export default async function CarPage({ params }: Props) {
           </div>
 
           {/* Right Sidebar - desktop only */}
-          <div className="hidden lg:block lg:w-96">
+          <div className="hidden lg:block lg:w-80 xl:w-96 flex-shrink-0">
             <div className="sticky top-24 space-y-6">
               {/* Price card */}
               <div className="bg-white rounded-xl border border-border p-6">
-                <h1 className="text-2xl font-bold text-primary">{car.brand} {car.model}</h1>
+                <p className="text-2xl font-bold text-primary">{car.brand} {car.model}</p>
                 <p className="text-text-light">{car.version}</p>
                 <p className="text-3xl font-bold text-primary mt-4">{car.currency === 'EUR' ? '\u20AC' : 'RON'}{car.price.toLocaleString('ro-RO')}</p>
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -186,6 +276,21 @@ export default async function CarPage({ params }: Props) {
           </div>
         </div>
 
+        {/* Related Cars - Internal Linking */}
+        {relatedCars.length > 0 && (
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold text-primary mb-6">Masini similare</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {relatedCars.map(rc => <CarCard key={rc.id} car={rc} />)}
+            </div>
+            <div className="mt-6 text-center">
+              <Link href="/masini" className="text-accent font-semibold hover:underline">
+                Vezi toate masinile disponibile &rarr;
+              </Link>
+            </div>
+          </section>
+        )}
+
         {/* Mobile Lead Form */}
         <div className="lg:hidden mt-8 bg-white rounded-xl border border-border p-6">
           <h3 className="font-bold text-primary mb-1">Te intereseaza aceasta masina?</h3>
@@ -195,17 +300,17 @@ export default async function CarPage({ params }: Props) {
       </div>
 
       {/* Sticky bottom bar - mobile only (like autovit) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-border px-4 py-3 safe-bottom">
+      <div className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-white border-t border-border px-4 py-3 safe-bottom" role="toolbar" aria-label="Contacteaza vanzatorul">
         <div className="flex items-center gap-3">
           <div className="flex-1 min-w-0">
             <p className="text-lg font-bold text-primary truncate">{car.currency === 'EUR' ? '\u20AC' : 'RON'}{car.price.toLocaleString('ro-RO')}</p>
             <p className="text-xs text-text-light truncate">{car.brand} {car.model} {car.version}</p>
           </div>
-          <a href={phoneLink} className="flex items-center justify-center gap-1.5 bg-primary text-white font-semibold px-4 py-2.5 rounded-lg text-sm flex-shrink-0">
+          <a href={phoneLink} className="flex items-center justify-center gap-1.5 bg-primary text-white font-semibold px-4 min-h-[44px] rounded-lg text-sm flex-shrink-0" aria-label={`Suna la ${settings.phone}`}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
             Suna
           </a>
-          <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 bg-whatsapp text-white font-semibold px-4 py-2.5 rounded-lg text-sm flex-shrink-0">
+          <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-1.5 bg-whatsapp text-white font-semibold px-4 min-h-[44px] rounded-lg text-sm flex-shrink-0" aria-label="Scrie pe WhatsApp">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             WhatsApp
           </a>

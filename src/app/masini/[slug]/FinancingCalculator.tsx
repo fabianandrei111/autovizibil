@@ -12,7 +12,7 @@ export default function FinancingCalculator({ price, currency }: { price: number
 
   return (
     <div className="bg-surface rounded-xl p-6">
-      <h2 className="text-xl font-bold text-primary mb-1">Calculator rata estimativa</h2>
+      <h2 className="text-xl font-bold text-primary mb-1 break-words">Calculator rata estimativa</h2>
       <p className="text-xs text-text-lighter mb-4">Simulare orientativa. Nu reprezinta o oferta financiara reala.</p>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>

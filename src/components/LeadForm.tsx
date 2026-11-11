@@ -43,24 +43,33 @@ export default function LeadForm({ carId, carName, type = 'contact' }: LeadFormP
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div>
-        <input type="text" placeholder="Numele tau *" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+        <label htmlFor={`lead-name-${type}`} className="sr-only">Numele tau</label>
+        <input id={`lead-name-${type}`} type="text" placeholder="Numele tau *" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" aria-required="true" />
       </div>
       <div>
-        <input type="tel" placeholder="Telefon *" required value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+        <label htmlFor={`lead-phone-${type}`} className="sr-only">Telefon</label>
+        <input id={`lead-phone-${type}`} type="tel" placeholder="Telefon *" required value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" aria-required="true" />
       </div>
       <div>
-        <input type="email" placeholder="Email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
+        <label htmlFor={`lead-email-${type}`} className="sr-only">Email</label>
+        <input id={`lead-email-${type}`} type="email" placeholder="Email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors" />
       </div>
       <div>
-        <textarea placeholder="Mesajul tau" rows={3} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" />
+        <label htmlFor={`lead-message-${type}`} className="sr-only">Mesajul tau</label>
+        <textarea id={`lead-message-${type}`} placeholder="Mesajul tau" rows={3} value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} className="w-full px-4 py-3 rounded-lg border border-border bg-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors resize-none" />
       </div>
-      <label className="flex items-start gap-2 text-xs text-text-light">
-        <input type="checkbox" required className="mt-0.5" />
-        <span>Sunt de acord cu <a href="/politica-confidentialitate" className="underline">politica de confidentialitate</a>.</span>
+      {status === 'error' && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700" role="alert">
+          A aparut o eroare. Te rugam sa incerci din nou.
+        </div>
+      )}
+      <label className="flex items-start gap-3 text-xs text-text-light cursor-pointer py-1">
+        <input type="checkbox" required className="mt-0.5 w-4 h-4 rounded border-border text-accent accent-accent flex-shrink-0" />
+        <span>Sunt de acord cu <a href="/politica-confidentialitate" className="underline hover:text-primary">politica de confidentialitate</a>.</span>
       </label>
-      <button type="submit" disabled={status === 'loading'} className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50">
+      <button type="submit" disabled={status === 'loading'} className="w-full bg-accent text-white font-semibold py-3 rounded-lg hover:bg-accent-hover transition-colors disabled:opacity-50 min-h-[44px]">
         {status === 'loading' ? 'Se trimite...' : 'Solicita informatii'}
       </button>
     </form>

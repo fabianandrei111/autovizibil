@@ -24,7 +24,7 @@ export default function Footer({ settings }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <Image src="/logo.jpeg" alt="AutoVizibil" width={220} height={70} className="h-14 w-auto brightness-0 invert" />
+            <Image src="/logo.jpeg" alt="AutoVizibil" width={220} height={70} className="h-14 w-auto brightness-0 invert" loading="lazy" />
             <p className="mt-4 text-sm text-gray-400 leading-relaxed">Masini atent selectate. Consultanta personalizata. Experienta simpla de cumparare.</p>
           </div>
 
@@ -63,10 +63,10 @@ export default function Footer({ settings }: FooterProps) {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} {settings.business_name}. Toate drepturile rezervate.</p>
+          <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} {settings.business_name}. Toate drepturile rezervate.</p>
           <div className="flex gap-6">
-            <Link href="/politica-confidentialitate" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">Confidentialitate</Link>
-            <Link href="/termeni" className="text-sm text-gray-500 hover:text-gray-300 transition-colors">Termeni</Link>
+            <Link href="/politica-confidentialitate" className="text-sm text-gray-400 hover:text-white transition-colors">Confidentialitate</Link>
+            <Link href="/termeni" className="text-sm text-gray-400 hover:text-white transition-colors">Termeni</Link>
           </div>
         </div>
       </div>

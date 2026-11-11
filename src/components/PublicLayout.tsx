@@ -9,8 +9,9 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 
   return (
     <>
+      <a href="#main-content" className="skip-to-content">Salt la continut</a>
       <Header settings={settings} />
-      <main className="flex-1 pt-16 lg:pt-20">
+      <main id="main-content" className="flex-1 pt-16 lg:pt-20">
         {children}
       </main>
       <Footer settings={settings} />

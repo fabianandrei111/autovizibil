@@ -3,10 +3,22 @@ import CarCard, { Car } from '@/components/CarCard';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ensureSeeded, getCarOfTheDay, getWeeklyDeals, getActiveCars } from '@/lib/db';
+import type { Metadata } from 'next';
 
-export const metadata = {
-  title: 'Oferte - AutoVizibil',
-  description: 'Cele mai bune oferte la masini importate din Europa. Masina zilei, ofertele saptamanii si reduceri speciale.',
+export const metadata: Metadata = {
+  title: 'Oferte Masini Import Europa | Cele Mai Bune Preturi | AutoVizibil',
+  description: 'Cele mai bune oferte la masini importate din Germania si Danemarca. Masina zilei, ofertele saptamanii si reduceri speciale. AutoVizibil Bucuresti.',
+  openGraph: {
+    title: 'Oferte Masini Import Europa | AutoVizibil',
+    description: 'Cele mai bune oferte la masini importate din Europa. Masina zilei, ofertele saptamanii si reduceri speciale.',
+    type: 'website',
+    locale: 'ro_RO',
+    siteName: 'AutoVizibil',
+    url: 'https://autovizibil.ro/oferte',
+  },
+  alternates: {
+    canonical: 'https://autovizibil.ro/oferte',
+  },
 };
 
 export default function OfertePage() {
@@ -22,8 +34,18 @@ export default function OfertePage() {
   // Newest arrivals
   const newest = [...allActive].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).slice(0, 4);
 
+  const oferteBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Acasa", item: "https://autovizibil.ro" },
+      { "@type": "ListItem", position: 2, name: "Oferte", item: "https://autovizibil.ro/oferte" },
+    ],
+  };
+
   return (
     <PublicLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(oferteBreadcrumb) }} />
       {/* Header */}
       <section className="bg-primary py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

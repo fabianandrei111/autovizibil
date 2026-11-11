@@ -40,11 +40,13 @@ export default function MobileFilters({ brands, bodyTypes, params, hasFilters }:
           {params.minPrice && <input type="hidden" name="minPrice" value={params.minPrice} />}
           {params.maxPrice && <input type="hidden" name="maxPrice" value={params.maxPrice} />}
           {params.year && <input type="hidden" name="year" value={params.year} />}
+          <label htmlFor="mf-sort" className="sr-only">Sorteaza dupa</label>
           <select
+            id="mf-sort"
             name="sort"
             defaultValue={params.sort || ''}
             onChange={e => (e.target.form as HTMLFormElement).submit()}
-            className="px-3 py-2.5 rounded-lg text-sm border border-border bg-white text-primary"
+            className="px-3 py-2.5 rounded-lg text-sm border border-border bg-white text-primary min-h-[44px]"
           >
             <option value="">Cele mai noi</option>
             <option value="price_asc">Pret ↑</option>
@@ -56,34 +58,55 @@ export default function MobileFilters({ brands, bodyTypes, params, hasFilters }:
 
       {/* Filter panel */}
       {open && (
-        <form method="GET" action="/masini" className="mt-3 bg-white rounded-xl border border-border p-4 space-y-3">
+        <form method="GET" action="/masini" className="mt-3 bg-white rounded-xl border border-border p-4 space-y-3" aria-label="Filtre masini">
           <div className="grid grid-cols-2 gap-3">
-            <select name="brand" defaultValue={params.brand || ''} className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white">
-              <option value="">Marca</option>
-              {brands.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
-            <select name="fuel" defaultValue={params.fuel || ''} className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white">
-              <option value="">Combustibil</option>
-              <option value="Benzina">Benzina</option>
-              <option value="Diesel">Diesel</option>
-              <option value="Hybrid">Hybrid</option>
-              <option value="Electric">Electric</option>
-            </select>
-            <select name="transmission" defaultValue={params.transmission || ''} className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white">
-              <option value="">Transmisie</option>
-              <option value="Automata">Automata</option>
-              <option value="Manuala">Manuala</option>
-            </select>
-            <select name="body_type" defaultValue={params.body_type || ''} className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white">
-              <option value="">Caroserie</option>
-              {bodyTypes.map(b => <option key={b} value={b}>{b}</option>)}
-            </select>
-            <input type="number" name="minPrice" defaultValue={params.minPrice || ''} placeholder="Pret min" className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white" />
-            <input type="number" name="maxPrice" defaultValue={params.maxPrice || ''} placeholder="Pret max" className="px-3 py-2.5 border border-border rounded-lg text-sm bg-white" />
+            <div>
+              <label htmlFor="mf-brand" className="sr-only">Marca</label>
+              <select id="mf-brand" name="brand" defaultValue={params.brand || ''} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]">
+                <option value="">Marca</option>
+                {brands.map(b => <option key={b} value={b}>{b}</option>)}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="mf-fuel" className="sr-only">Combustibil</label>
+              <select id="mf-fuel" name="fuel" defaultValue={params.fuel || ''} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]">
+                <option value="">Combustibil</option>
+                <option value="Benzina">Benzina</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="Electric">Electric</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="mf-transmission" className="sr-only">Transmisie</label>
+              <select id="mf-transmission" name="transmission" defaultValue={params.transmission || ''} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]">
+                <option value="">Transmisie</option>
+                <option value="Automata">Automata</option>
+                <option value="Manuala">Manuala</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="mf-body_type" className="sr-only">Caroserie</label>
+              <select id="mf-body_type" name="body_type" defaultValue={params.body_type || ''} className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]">
+                <option value="">Caroserie</option>
+                {bodyTypes.map(b => <option key={b} value={b}>{b}</option>)}
+              </select>
+            </div>
+            <div>
+              <label htmlFor="mf-minPrice" className="sr-only">Pret minim</label>
+              <input id="mf-minPrice" type="number" name="minPrice" defaultValue={params.minPrice || ''} placeholder="Pret min" className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]" />
+            </div>
+            <div>
+              <label htmlFor="mf-maxPrice" className="sr-only">Pret maxim</label>
+              <input id="mf-maxPrice" type="number" name="maxPrice" defaultValue={params.maxPrice || ''} placeholder="Pret max" className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]" />
+            </div>
           </div>
-          <input type="number" name="year" defaultValue={params.year || ''} placeholder="An minim" className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white" />
+          <div>
+            <label htmlFor="mf-year" className="sr-only">An minim</label>
+            <input id="mf-year" type="number" name="year" defaultValue={params.year || ''} placeholder="An minim" className="w-full px-3 py-2.5 border border-border rounded-lg text-sm bg-white min-h-[44px]" />
+          </div>
           {params.sort && <input type="hidden" name="sort" value={params.sort} />}
-          <button type="submit" className="w-full bg-primary text-white font-semibold py-3 rounded-lg text-sm">
+          <button type="submit" className="w-full bg-primary text-white font-semibold py-3 rounded-lg text-sm min-h-[44px]">
             Aplica filtre
           </button>
         </form>
