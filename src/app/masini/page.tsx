@@ -5,8 +5,8 @@ import { ensureSeeded, filterCars, getAllCars } from '@/lib/db';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Masini | AutoVizibil',
-  description: 'Descopera toate masinile disponibile pe AutoVizibil. Filtre avansate, preturi transparente.',
+  title: 'Masini de Vanzare | Import Auto Germania & Danemarca | AutoVizibil',
+  description: 'Peste 40 masini verificate de vanzare - import din Germania si Danemarca. BMW, Mercedes, Volvo, Audi. Preturi transparente, leasing disponibil. AutoVizibil Bucuresti.',
 };
 
 type Props = {

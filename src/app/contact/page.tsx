@@ -4,8 +4,8 @@ import { getSettings } from '@/lib/settings';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Contact | AutoVizibil',
-  description: 'Contacteaza AutoVizibil prin telefon, WhatsApp sau formularul de contact.',
+  title: 'Contact AutoVizibil | Suna 0742 902 242 | Import Masini Europa',
+  description: 'Contacteaza AutoVizibil: telefon 0742 902 242, WhatsApp sau formular de contact. Import masini verificate din Germania si Danemarca, Bucuresti.',
 };
 
 export default function ContactPage() {
@@ -67,13 +67,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-primary mb-3">Social media</h3>
-              <div className="flex gap-4">
-                <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="text-text-light hover:text-primary transition-colors">Instagram</a>
-                <a href={settings.tiktok} target="_blank" rel="noopener noreferrer" className="text-text-light hover:text-primary transition-colors">TikTok</a>
-              </div>
-            </div>
           </div>
 
           {/* Form */}

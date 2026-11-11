@@ -315,13 +315,13 @@ export function ensureSeeded() {
 
   settings = {
     business_name: 'AutoVizibil',
-    phone: '+40 779 366 785',
-    whatsapp: '40779366785',
+    phone: '0742 902 242',
+    whatsapp: '40742902242',
     email: 'contact@autovizibil.ro',
     address: 'Bucuresti, Romania',
     program: 'Luni - Vineri: 09:00 - 18:00 | Sambata: 10:00 - 14:00 | Duminica: Inchis',
-    instagram: 'https://www.instagram.com/autovizibil.ro',
-    tiktok: 'https://www.tiktok.com/@autovizibil.ro',
+    instagram: '',
+    tiktok: '',
     facebook: '',
     youtube: '',
     hero_title: 'Masina potrivita incepe cu alegerea potrivita.',

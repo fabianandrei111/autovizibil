@@ -5,8 +5,8 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Despre noi | AutoVizibil',
-  description: 'Afla mai multe despre AutoVizibil - intermediere auto profesionala cu accent pe transparenta, selectie si experienta simpla.',
+  title: 'Despre AutoVizibil | Dealer Auto Import Germania & Danemarca',
+  description: 'AutoVizibil - intermediere auto profesionala cu accent pe transparenta. Import masini verificate din Germania si Danemarca, Bucuresti, Romania.',
 };
 
 type Testimonial = { id: string; name: string; car: string; text: string; rating: number };
