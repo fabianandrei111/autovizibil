@@ -1,6 +1,6 @@
 import PublicLayout from '@/components/PublicLayout';
 import CarCard, { Car } from '@/components/CarCard';
-import SearchBar from '@/components/SearchBar';
+import MobileFilters from '@/components/MobileFilters';
 import { ensureSeeded, filterCars, getAllCars } from '@/lib/db';
 import type { Metadata } from 'next';
 
@@ -32,20 +32,33 @@ export default async function MasiniPage({ searchParams }: Props) {
   const brands = [...new Set(allCars.map(c => c.brand))].sort();
   const bodyTypes = [...new Set(allCars.map(c => c.body_type).filter(Boolean))].sort();
 
+  const hasFilters = !!(params.brand || params.fuel || params.transmission || params.body_type || params.minPrice || params.maxPrice || params.year);
+
   return (
     <PublicLayout>
-      <section className="bg-surface border-b border-border py-8">
+      {/* Header bar */}
+      <section className="bg-surface border-b border-border py-4 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-primary">Masini disponibile</h1>
-          <p className="text-text-light mt-1">{cars.length} masini gasite</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-primary">Masini disponibile</h1>
+          <p className="text-text-light mt-0.5 text-sm">{cars.length} masini gasite</p>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        {/* Mobile: collapsible filters */}
+        <div className="lg:hidden mb-4">
+          <MobileFilters
+            brands={brands}
+            bodyTypes={bodyTypes}
+            params={params}
+            hasFilters={hasFilters}
+          />
+        </div>
+
         <div className="lg:flex gap-8">
-          {/* Filters sidebar */}
-          <aside className="lg:w-64 flex-shrink-0 mb-8 lg:mb-0">
-            <form method="GET" action="/masini" className="space-y-4">
+          {/* Desktop filters sidebar */}
+          <aside className="hidden lg:block lg:w-64 flex-shrink-0">
+            <form method="GET" action="/masini" className="space-y-4 sticky top-24">
               <div>
                 <label className="block text-sm font-medium text-primary mb-1">Marca</label>
                 <select name="brand" defaultValue={params.brand || ''} className="w-full px-3 py-2 border border-border rounded-lg text-sm bg-white">
@@ -107,7 +120,7 @@ export default async function MasiniPage({ searchParams }: Props) {
             </form>
           </aside>
 
-          {/* Grid */}
+          {/* Cars grid/list */}
           <div className="flex-1">
             {cars.length === 0 ? (
               <div className="text-center py-20">
@@ -115,9 +128,16 @@ export default async function MasiniPage({ searchParams }: Props) {
                 <p className="text-text-light mt-2">Incearca sa modifici filtrele sau <a href="/cauta-masina" className="text-accent underline">spune-ne ce cauti</a>.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {cars.map(car => <CarCard key={car.id} car={car} />)}
-              </div>
+              <>
+                {/* Mobile: list view (horizontal cards) */}
+                <div className="sm:hidden space-y-3">
+                  {cars.map(car => <CarCard key={car.id} car={car} layout="list" />)}
+                </div>
+                {/* Tablet+: grid view */}
+                <div className="hidden sm:grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {cars.map(car => <CarCard key={car.id} car={car} />)}
+                </div>
+              </>
             )}
           </div>
         </div>

@@ -30,23 +30,23 @@ export default function HomePage() {
           <Image src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="" fill className="object-cover" priority />
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-primary/60" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-36">
           <div className="max-w-2xl">
-            <h1 className="text-4xl lg:text-6xl font-black text-white leading-tight">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl font-black text-white leading-tight">
               {settings.hero_title}
             </h1>
-            <p className="mt-6 text-lg lg:text-xl text-gray-300 leading-relaxed">
+            <p className="mt-4 sm:mt-6 text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed">
               {settings.hero_subtitle}
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <Link href="/masini" className="inline-flex items-center justify-center bg-accent text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-hover transition-colors">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <Link href="/masini" className="inline-flex items-center justify-center bg-accent text-white font-bold px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-accent-hover transition-colors">
                 {settings.hero_cta}
               </Link>
-              <Link href="/cauta-masina" className="inline-flex items-center justify-center bg-white/10 text-white font-semibold px-8 py-4 rounded-lg text-lg hover:bg-white/20 transition-colors border border-white/20">
+              <Link href="/cauta-masina" className="inline-flex items-center justify-center bg-white/10 text-white font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg text-base sm:text-lg hover:bg-white/20 transition-colors border border-white/20">
                 {settings.hero_cta_secondary}
               </Link>
             </div>
-            <div className="mt-6 flex items-center gap-4 text-gray-400 text-sm">
+            <div className="mt-4 sm:mt-6 flex items-center gap-4 text-gray-400 text-sm">
               <svg className="w-4 h-4 text-accent" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
               Masini verificate din Europa
             </div>
@@ -60,9 +60,9 @@ export default function HomePage() {
       </section>
 
       {/* CATEGORIES */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-2xl font-bold text-primary mb-6">Categorii</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-4">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <h2 className="text-xl sm:text-2xl font-bold text-primary mb-4 sm:mb-6">Categorii</h2>
+        <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2 sm:grid sm:grid-cols-3 lg:grid-cols-7 sm:gap-4 sm:overflow-visible sm:pb-0">
           {[
             { name: 'Sedan', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125v-3.026a3 3 0 00-.879-2.121L16.5 9l-3-4.5H7.5L4.5 9l-2.379 2.878A3 3 0 001.25 14.1v3.026"/></svg> },
             { name: 'SUV', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V11.25m17.25 7.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V11.25L18 6H6L2.25 11.25v6.375"/></svg> },
@@ -72,7 +72,7 @@ export default function HomePage() {
             { name: 'Coupe', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14m17.25 4.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14l-3-5.5L13 5h-3L6 8.5 3 14v3.625"/></svg> },
             { name: 'Monovolum', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V9.75m17.25 9a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V9.75H19L16 5H6L3 9.75v7.875"/></svg> },
           ].filter(cat => categoryCounts[cat.name]).map(cat => (
-            <Link key={cat.name} href={`/masini?body_type=${encodeURIComponent(cat.name)}`} className="flex flex-col items-center bg-white rounded-xl p-5 border border-border hover:shadow-md hover:border-accent transition-all">
+            <Link key={cat.name} href={`/masini?body_type=${encodeURIComponent(cat.name)}`} className="flex flex-col items-center bg-white rounded-xl p-4 sm:p-5 border border-border hover:shadow-md hover:border-accent transition-all min-w-[100px] flex-shrink-0 sm:min-w-0 sm:flex-shrink">
               <span className="text-primary">{cat.icon}</span>
               <span className="font-semibold text-primary mt-2 text-sm">{cat.name}</span>
               <span className="text-xs text-text-light">{categoryCounts[cat.name]} masini</span>
@@ -82,7 +82,7 @@ export default function HomePage() {
       </section>
 
       {/* INFO BANNER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 sm:pb-8">
         <div className="bg-accent/10 border border-accent/20 rounded-xl p-6 flex flex-col sm:flex-row items-center gap-4">
           <svg className="w-10 h-10 text-accent flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={1.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
           <div>
@@ -93,7 +93,7 @@ export default function HomePage() {
       </section>
 
       {/* MASINA ZILEI + OFERTELE SAPTAMANII */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Masina Zilei */}
           {carOfTheDay && (
@@ -134,7 +134,12 @@ export default function HomePage() {
                 <p className="text-sm text-text-light">Cele mai bune preturi, selectate pentru tine</p>
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Mobile: list view */}
+            <div className="sm:hidden space-y-3">
+              {weeklyDeals.map(car => <CarCard key={car.id} car={car} layout="list" />)}
+            </div>
+            {/* Tablet+: grid view */}
+            <div className="hidden sm:grid sm:grid-cols-2 gap-4">
               {weeklyDeals.map(car => <CarCard key={car.id} car={car} />)}
             </div>
           </div>
@@ -142,30 +147,35 @@ export default function HomePage() {
       </section>
 
       {/* FEATURED CARS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="flex items-center justify-between mb-10">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
+        <div className="flex items-center justify-between mb-6 sm:mb-10">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary">Masinile momentului</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary">Masinile momentului</h2>
             <p className="text-text-light mt-2">Selectia noastra de masini premium, la comanda din Europa.</p>
           </div>
           <Link href="/masini" className="hidden sm:inline-flex items-center text-sm font-semibold text-accent hover:underline">
             Vezi toate &rarr;
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile: list view */}
+        <div className="sm:hidden space-y-3">
+          {featuredCars.map(car => <CarCard key={car.id} car={car} layout="list" />)}
+        </div>
+        {/* Tablet+: grid view */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredCars.map(car => <CarCard key={car.id} car={car} />)}
         </div>
-        <div className="mt-8 text-center sm:hidden">
+        <div className="mt-6 sm:mt-8 text-center sm:hidden">
           <Link href="/masini" className="text-accent font-semibold">Vezi toate masinile &rarr;</Link>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="bg-surface py-20">
+      <section className="bg-surface py-10 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary text-center">Cum functioneaza</h2>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-center">Cum functioneaza</h2>
           <p className="text-text-light text-center mt-3 max-w-xl mx-auto">Procesul este simplu si transparent. In 4 pasi ajungi la masina potrivita.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 mt-8 sm:mt-12">
             {[
               { step: '01', title: 'Alegi masina', desc: 'Alegi din portofoliul nostru sau ne spui ce cauti.' },
               { step: '02', title: 'Platesti avansul', desc: 'Avans minim 30% pentru a rezerva masina. Posibilitate leasing.' },
@@ -183,7 +193,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA MID */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
         <div className="bg-primary rounded-2xl p-8 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="max-w-xl">
             <h2 className="text-2xl lg:text-3xl font-bold text-white">Cauti o masina din Europa?</h2>
@@ -212,9 +222,9 @@ export default function HomePage() {
 
       {/* TESTIMONIALS */}
       {testimonials.length > 0 && (
-        <section className="bg-surface py-20">
+        <section className="bg-surface py-10 sm:py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl lg:text-4xl font-bold text-primary text-center">Ce spun clientii</h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary text-center">Ce spun clientii</h2>
             <p className="text-text-light text-center mt-2 text-sm">(Date demonstrative)</p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
               {testimonials.map(t => (
@@ -237,8 +247,8 @@ export default function HomePage() {
       )}
 
       {/* FAQ */}
-      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <h2 className="text-3xl font-bold text-primary text-center mb-10">Intrebari frecvente</h2>
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20">
+        <h2 className="text-2xl sm:text-3xl font-bold text-primary text-center mb-6 sm:mb-10">Intrebari frecvente</h2>
         {[
           { q: 'Cum functioneaza importul la comanda?', a: 'Alegi masina din portofoliul nostru, platesti un avans minim de 30%, iar noi ne ocupam de import, transport si livrare din Danemarca in 7-14 zile lucratoare.' },
           { q: 'Cat costa avansul?', a: 'Avansul minim este de 30% din pretul masinii. Restul se poate achita integral la livrare sau prin leasing/finantare.' },
@@ -257,7 +267,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="bg-primary py-16">
+      <section className="bg-primary py-10 sm:py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white">Cauti o masina?</h2>
           <p className="text-gray-400 mt-3">Contacteaza-ne acum si te ajutam sa gasesti varianta potrivita.</p>
